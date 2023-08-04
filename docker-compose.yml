@@ -16,7 +16,7 @@ services:
       - ambiente_dev
 
   dev_nginx_db:
-    image: mysql:8.1.0
+    image: mysql:5.7.43
     restart: unless-stopped
     container_name: dev_nginx_db
     command: >
