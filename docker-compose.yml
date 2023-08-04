@@ -16,7 +16,7 @@ services:
       - ambiente_dev
 
   dev_nginx_db:
-    image: mysql:5.7.43
+    image: mysql:8.1.0
     restart: unless-stopped
     container_name: dev_nginx_db
     command: >
@@ -48,7 +48,6 @@ services:
     ports:
       - '${WWW_CTNR_PORT}:${WWW_HOST_PORT}'
     environment:
-      URL_DEV: ${URL_DEV}
       DB_CONNECTION: ${DB_CONNECTION}
       DB_HOST: ${DB_HOST}
       DB_USER: ${DB_USER}
