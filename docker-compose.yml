@@ -1,0 +1,68 @@
+version: '3.9'
+
+services:
+  app:
+    build:
+      args: 
+        user: bruno
+        uid: 1000
+      context: ./
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    working_dir: /var/www/
+    volumes:
+     - '${PATH_HOST_WWW}:${PATH_CTNR_WWW}'
+    networks:
+      - ambiente_dev
+
+  dev_nginx_db:
+    image: mysql:5.7.43
+    restart: unless-stopped
+    container_name: dev_nginx_db
+    command: >
+      --default-authentication-plugin=mysql_native_password  --character-set-server=utf8mb4  --collation-server=utf8mb4_unicode_ci  --innodb_file_format=barracuda  --innodb_file_per_table=On  --innodb_large_prefix=On
+
+    volumes:
+      - "dev_banco:/var/lib/mysql:rw"
+
+    ports:
+      - "${DB_HOST_PORT}:${DB_CTNR_PORT}"
+
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    
+    networks:
+      - ambiente_dev
+
+  dev_nginx:
+    image: nginx:alpine
+    restart: unless-stopped
+    container_name: dev_nginx
+    env_file:
+      - .env
+    volumes:
+      - '${PATH_HOST_WWW}:${PATH_CTNR_WWW}'
+      - ./docker/nginx/:/etc/nginx/conf.d/
+    ports:
+      - '${WWW_CTNR_PORT}:${WWW_HOST_PORT}'
+    environment:
+      URL_DEV: ${URL_DEV}
+      DB_CONNECTION: ${DB_CONNECTION}
+      DB_HOST: ${DB_HOST}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_ROOT_PASSWORD}
+      DB_COLLATE: ${DB_COLLATE}
+      DB_CHARSET: ${DB_CHARSET}
+      DB_TIMEZONE: ${DB_TIMEZONE}
+      DB_HOST_PORT: ${DB_HOST_PORT}
+    networks:
+      - ambiente_dev
+
+volumes:
+  dev_banco:
+
+networks:
+  ambiente_dev:
+    driver: bridge
