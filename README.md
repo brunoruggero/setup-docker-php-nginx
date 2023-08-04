@@ -1,41 +1,30 @@
 # Setup Docker Para Projetos PHP
 
-#### 🎲 Rodando a Aplicação (servidor)
+#### Introdução
 
-Clone Repositório
-```sh
-git clone https://github.com/brunoruggero/setup-docker-php-nginx.git my-project
-cd my-project/
-```
+O presente projeto tem como objetivo demonstrar como criar um ambiente de desenvolvimento para aplicativos PHP usando Docker, Docker Compose, PHP, Nginx e MySQL. A abordagem do Docker torna mais fácil e eficiente a configuração do ambiente, garantindo a consistência entre máquinas e facilitando o desenvolvimento colaborativo. 
 
-Alterne para a branch docker-with-php-7.4
-```sh
-git checkout docker-with-php-7.4
-```
+#### Visão Geral do Projeto
 
-Remova o versionamento
-```sh
-rm -rf .git/
-```
+O projeto consiste na criação de um ambiente de desenvolvimento local para aplicativos PHP. O Docker é uma ferramenta de conteinerização que permite empacotar o aplicativo, suas dependências e configurações em um único contêiner, garantindo a portabilidade e facilidade de implantação. O Docker Compose é usado para orquestrar vários contêineres e definir a infraestrutura do ambiente.
 
-Crie o Arquivo .env
-```sh
-cp .env.example .env
-```
+#### Componentes do Ambiente
 
-Atualize as variáveis de ambiente do arquivo .env
-```dosini
-DB_ROOT_PASSWORD= INFORME A SENHA PARA O USER ROOT
-DB_USER= INFORME O NOME DE USUÁRIO PARA ACESSAR O BANCO DE DADOS
-DB_PASSWORD= INFORME A SENHA DO USUÁRIO
+1. **Dockerfile:** Um arquivo de configuração que define as especificações do contêiner. Nele, são listadas as dependências necessárias, comandos para instalação do PHP e Apache, e configurações adicionais.
+2. **Docker Compose:** Um arquivo YAML que define a estrutura do ambiente e a relação entre os serviços. Neste projeto, definiremos um serviço para o contêiner PHP e outro para o contêiner do MySQL.
+3. **PHP:** A linguagem de programação usada para desenvolver aplicativos web. No contêiner, o PHP será instalado com as extensões e bibliotecas necessárias.
+4. **Nginx:** O servidor web responsável por processar as solicitações HTTP e servir as páginas web para os clientes.
+5. **MySQL:** Um sistema de gerenciamento de banco de dados relacional que armazenará os dados do aplicativo.
 
-PATH_HOST_WWW= INFORME O MESMO NOME DA PASTA ONDE O REPOSITÓRIO FOI CLONADO
-```
+#### Pré-requisitos
 
-Suba os containers do projeto
-```sh
-docker-compose up -d --build
-```
+Antes de começar, você vai precisar ter instalado em sua máquina as seguintes ferramentas:
 
-Após a subir os container, acesse o projeto:
-[http://localhost:8180](http://localhost:8180)
+[Docker-composer](https://docs.docker.com/compose/)
+
+[WSL2](https://learn.microsoft.com/pt-br/windows/wsl/install)
+
+#### Branchs do projeto
+
+1. Versão com **PHP 7.4** (docker-with-php-7.4)
+2. Versão com **PHP 8.1** (docker-with-php-8)
